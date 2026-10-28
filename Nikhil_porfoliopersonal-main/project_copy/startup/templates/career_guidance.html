@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}Career Guidance - CareerPilot{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="container mx-auto px-4">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Career Guidance</h1>
+            <p class="text-gray-600">Get personalized career advice and path recommendations</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Chat Interface -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="p-6 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-800">AI Career Advisor</h2>
+                        <p class="text-gray-600">Ask questions about your career path</p>
+                    </div>
+                    
+                    <!-- Chat Messages -->
+                    <div id="chatMessages" class="h-96 overflow-y-auto p-6 space-y-4">
+                        <!-- Welcome Message -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <div class="bg-indigo-100 rounded-lg p-4">
+                                    <p class="text-gray-800">Hello! I'm your AI career advisor. How can I help you today?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="p-6 border-t border-gray-200">
+                        <form id="chatForm" class="flex space-x-4">
+                            <input type="text" id="messageInput" class="form-input flex-1" placeholder="Type your message...">
+                            <button type="submit" class="btn-primary">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Career Path Recommendations -->
+            <div class="space-y-6">
+                <!-- Career Assessment -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Career Assessment</h2>
+                    <p class="text-gray-600 mb-4">Take our assessment to get personalized career recommendations</p>
+                    <button onclick="startAssessment()" class="btn-primary w-full">
+                        Start Assessment
+                    </button>
+                </div>
+
+                <!-- Recommended Paths -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Recommended Paths</h2>
+                    <div class="space-y-4">
+                        {% for path in recommended_paths %}
+                        <div class="p-4 bg-gray-50 rounded-lg hover-scale">
+                            <h3 class="font-semibold text-gray-800">{{ path.title }}</h3>
+                            <p class="text-sm text-gray-600">{{ path.description }}</p>
+                            <div class="mt-2">
+                                <span class="text-xs font-medium text-indigo-600">Match: {{ path.match_percentage }}%</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Skills Development -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Skills Development</h2>
+                    <div class="space-y-4">
+                        {% for skill in recommended_skills %}
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="font-medium text-gray-800">{{ skill.name }}</h3>
+                                <p class="text-sm text-gray-600">{{ skill.description }}</p>
+                            </div>
+                            <div class="w-24">
+                                <div class="bg-gray-200 rounded-full h-2">
+                                    <div class="bg-indigo-600 rounded-full h-2" style="width: {{ skill.progress }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Assessment Modal -->
+<div id="assessmentModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="text-xl font-semibold">Career Assessment</h2>
+            <button onclick="closeAssessment()" class="text-gray-500 hover:text-gray-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div id="assessmentQuestions" class="space-y-6">
+                <!-- Questions will be dynamically added here -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button onclick="closeAssessment()" class="btn-secondary">Cancel</button>
+            <button onclick="submitAssessment()" class="btn-primary">Submit</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Chat functionality
+    const chatForm = document.getElementById('chatForm');
+    const messageInput = document.getElementById('messageInput');
+    const chatMessages = document.getElementById('chatMessages');
+
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        if (message) {
+            addMessage(message, 'user');
+            messageInput.value = '';
+            // Simulate AI response
+            setTimeout(() => {
+                addMessage('I understand your question. Let me help you with that...', 'ai');
+            }, 1000);
+        }
+    });
+
+    function addMessage(message, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'flex items-start';
+        
+        if (sender === 'user') {
+            messageDiv.innerHTML = `
+                <div class="ml-auto">
+                    <div class="bg-indigo-600 rounded-lg p-4">
+                        <p class="text-white">${message}</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <div class="bg-indigo-100 rounded-lg p-4">
+                        <p class="text-gray-800">${message}</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Assessment functionality
+    function startAssessment() {
+        document.getElementById('assessmentModal').classList.remove('hidden');
+        loadQuestions();
+    }
+
+    function closeAssessment() {
+        document.getElementById('assessmentModal').classList.add('hidden');
+    }
+
+    function loadQuestions() {
+        const questions = [
+            {
+                question: "What are your main interests?",
+                type: "multiple",
+                options: ["Technology", "Business", "Creative Arts", "Science", "Healthcare"]
+            },
+            {
+                question: "How do you prefer to work?",
+                type: "single",
+                options: ["Independently", "In a team", "Both"]
+            },
+            {
+                question: "What are your strongest skills?",
+                type: "multiple",
+                options: ["Problem Solving", "Communication", "Leadership", "Technical", "Creative"]
+            }
+        ];
+
+        const questionsContainer = document.getElementById('assessmentQuestions');
+        questionsContainer.innerHTML = questions.map((q, index) => `
+            <div class="space-y-2">
+                <h3 class="font-medium text-gray-800">${index + 1}. ${q.question}</h3>
+                <div class="space-y-2">
+                    ${q.options.map(option => `
+                        <label class="flex items-center">
+                            <input type="${q.type === 'multiple' ? 'checkbox' : 'radio'}" 
+                                   name="question_${index}" 
+                                   value="${option}" 
+                                   class="form-checkbox">
+                            <span class="ml-2 text-gray-700">${option}</span>
+                        </label>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function submitAssessment() {
+        // Add assessment submission logic
+        closeAssessment();
+    }
+</script>
+{% endblock %} 

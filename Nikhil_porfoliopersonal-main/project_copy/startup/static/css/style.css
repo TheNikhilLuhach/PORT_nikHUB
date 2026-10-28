@@ -1,0 +1,203 @@
+/* Custom Variables */
+:root {
+    --primary-color: #4f46e5;
+    --secondary-color: #818cf8;
+    --accent-color: #c084fc;
+    --background-start: #e0e7ff;
+    --background-end: #fdf2f8;
+}
+
+/* Global Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--background-start), var(--background-end));
+    min-height: 100vh;
+}
+
+/* Navigation */
+.nav-link {
+    @apply text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300;
+}
+
+/* Cards */
+.card {
+    @apply bg-white rounded-lg shadow-lg p-6 transition duration-300 hover:shadow-xl;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+}
+
+/* Buttons */
+.btn-primary {
+    @apply bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300;
+}
+
+.btn-secondary {
+    @apply bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition duration-300;
+}
+
+/* Animations */
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* Gradient Text */
+.gradient-text {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* Form Elements */
+.form-input {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-300;
+}
+
+.form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+/* Loading Spinner */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Particles Background */
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* Glass Effect */
+.glass {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Progress Bar */
+.progress-bar {
+    @apply h-2 bg-gray-200 rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+    @apply h-full bg-indigo-600 transition-all duration-300;
+}
+
+/* Tooltip */
+.tooltip {
+    @apply invisible absolute bg-gray-900 text-white px-2 py-1 rounded text-sm;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip-trigger:hover .tooltip {
+    @apply visible;
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card {
+        @apply p-4;
+    }
+    
+    .nav-link {
+        @apply px-2 py-1;
+    }
+}
+
+/* Custom Animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Quiz Styles */
+.quiz-option {
+    @apply p-4 border border-gray-300 rounded-lg cursor-pointer transition duration-300;
+}
+
+.quiz-option:hover {
+    @apply border-indigo-500 bg-indigo-50;
+}
+
+.quiz-option.selected {
+    @apply border-indigo-500 bg-indigo-100;
+}
+
+/* Resume Builder Styles */
+.resume-section {
+    @apply mb-6 p-4 border border-gray-200 rounded-lg;
+}
+
+.resume-section:hover {
+    @apply border-indigo-500 shadow-md;
+}
+
+/* Job Card Styles */
+.job-card {
+    @apply p-6 border border-gray-200 rounded-lg mb-4 transition duration-300;
+}
+
+.job-card:hover {
+    @apply border-indigo-500 shadow-lg transform -translate-y-1;
+}
+
+/* Career Guidance Chat */
+.chat-container {
+    @apply h-96 overflow-y-auto p-4 bg-white rounded-lg shadow-lg;
+}
+
+.chat-message {
+    @apply mb-4 p-3 rounded-lg max-w-3/4;
+}
+
+.chat-message.user {
+    @apply bg-indigo-100 ml-auto;
+}
+
+.chat-message.bot {
+    @apply bg-gray-100 mr-auto;
+} 

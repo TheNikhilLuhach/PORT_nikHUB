@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand Gesture Control System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+        
+        .tech-stack {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tech-badge {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .demo-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+        
+        .gesture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .gesture-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .gesture-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+        
+        .gesture-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .gesture-name {
+            color: #00d4ff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .gesture-description {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+        
+        .demo-button {
+            background: linear-gradient(45deg, #00d4ff, #7c3aed);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .demo-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .demo-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .status-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .status-line {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #00d4ff;
+            padding-left: 10px;
+        }
+        
+        .video-preview {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .github-link {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .github-link a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        
+        .github-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Hand Gesture Control System</h1>
+            <p>A computer vision application that enables touchless computer control through hand gestures using MediaPipe for real-time hand tracking.</p>
+            <div class="tech-stack">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">OpenCV</span>
+                <span class="tech-badge">MediaPipe</span>
+                <span class="tech-badge">Computer Vision</span>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🤚 Gesture Commands</h2>
+            <div class="gesture-grid">
+                <div class="gesture-card">
+                    <div class="gesture-icon">☝️</div>
+                    <div class="gesture-name">One Finger</div>
+                    <div class="gesture-description">Opens Notepad for quick note-taking</div>
+                </div>
+                
+                <div class="gesture-card">
+                    <div class="gesture-icon">✌️</div>
+                    <div class="gesture-name">Two Fingers</div>
+                    <div class="gesture-description">Opens CMD and launches Python interpreter</div>
+                </div>
+                
+                <div class="gesture-card">
+                    <div class="gesture-icon">🤟</div>
+                    <div class="gesture-name">Three Fingers</div>
+                    <div class="gesture-description">Opens new CMD and launches Jupyter Notebook</div>
+                </div>
+                
+                <div class="gesture-card">
+                    <div class="gesture-icon">✊</div>
+                    <div class="gesture-name">Fist</div>
+                    <div class="gesture-description">Minimizes all windows (Win+D)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-preview">
+            <div>
+                <h3>📹 Camera Preview</h3>
+                <p style="margin: 20px 0; color: #a0a0a0;">Webcam feed would appear here with hand landmark detection</p>
+                <button class="demo-button" onclick="startDemo()">Start Camera Demo</button>
+                <button class="demo-button" onclick="stopDemo()" id="stopBtn" disabled>Stop Demo</button>
+            </div>
+        </div>
+
+        <div class="status-panel" id="statusPanel">
+            <div class="status-line">🔵 System initialized - Hand gesture control ready</div>
+            <div class="status-line">🟢 Camera access granted - MediaPipe loaded</div>
+            <div class="status-line">🔵 Waiting for gesture input...</div>
+        </div>
+
+        <div class="demo-section">
+            <h2>⚙️ System Features</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div>
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">🎯 Accuracy Features</h3>
+                    <ul style="color: #a0a0a0; line-height: 1.8;">
+                        <li>Real-time hand landmark detection</li>
+                        <li>2-second cooldown between commands</li>
+                        <li>Visual feedback for recognized gestures</li>
+                        <li>Adjustable sensitivity settings</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">🛡️ Safety Features</h3>
+                    <ul style="color: #a0a0a0; line-height: 1.8;">
+                        <li>Automatic cleanup on exit</li>
+                        <li>Hand tracking boundary detection</li>
+                        <li>Error handling for failed launches</li>
+                        <li>Keyboard shortcut override (Q to quit)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="github-link">
+            <a href="https://github.com/TheNikhilLuhach" target="_blank">
+                🔗 View Full Project on GitHub
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let demoActive = false;
+        let gestureTimeout;
+
+        function addStatus(message, type = 'info') {
+            const statusPanel = document.getElementById('statusPanel');
+            const statusLine = document.createElement('div');
+            statusLine.className = 'status-line';
+            
+            const icons = {
+                'info': '🔵',
+                'success': '🟢',
+                'warning': '🟡',
+                'error': '🔴'
+            };
+            
+            statusLine.textContent = `${icons[type]} ${new Date().toLocaleTimeString()} - ${message}`;
+            statusPanel.appendChild(statusLine);
+            statusPanel.scrollTop = statusPanel.scrollHeight;
+        }
+
+        function simulateGesture(gestureName) {
+            addStatus(`Gesture detected: ${gestureName}`, 'success');
+            
+            const actions = {
+                'One Finger': 'Opening Notepad...',
+                'Two Fingers': 'Launching CMD with Python...',
+                'Three Fingers': 'Starting Jupyter Notebook...',
+                'Fist': 'Minimizing all windows...'
+            };
+            
+            setTimeout(() => {
+                addStatus(actions[gestureName] || 'Processing gesture...', 'info');
+            }, 500);
+        }
+
+        function startDemo() {
+            demoActive = true;
+            document.querySelector('.demo-button').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+            
+            addStatus('Camera demo started - Simulating gesture detection...', 'success');
+            addStatus('Hand landmarks visualization active', 'info');
+            
+            // Simulate random gesture detection
+            gestureTimeout = setInterval(() => {
+                const gestures = ['One Finger', 'Two Fingers', 'Three Fingers', 'Fist'];
+                const randomGesture = gestures[Math.floor(Math.random() * gestures.length)];
+                simulateGesture(randomGesture);
+            }, 3000);
+        }
+
+        function stopDemo() {
+            demoActive = false;
+            document.querySelector('.demo-button').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            
+            if (gestureTimeout) {
+                clearInterval(gestureTimeout);
+            }
+            
+            addStatus('Camera demo stopped', 'warning');
+        }
+
+        // Add interactive hover effects
+        document.querySelectorAll('.gesture-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                if (demoActive) {
+                    const gestureName = this.querySelector('.gesture-name').textContent;
+                    this.style.transform = 'translateY(-10px) scale(1.05)';
+                    this.style.boxShadow = '0 15px 40px rgba(0, 212, 255, 0.3)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.boxShadow = '0 10px 30px rgba(0, 212, 255, 0.2)';
+            });
+            
+            card.addEventListener('click', function() {
+                const gestureName = this.querySelector('.gesture-name').textContent;
+                simulateGesture(gestureName);
+            });
+        });
+    </script>
+</body>
+</html>

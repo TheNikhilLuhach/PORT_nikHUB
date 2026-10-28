@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+
+{% block title %}Job Opportunities - Career Platform{% endblock %}
+
+{% block content %}
+<div class="py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-2xl font-semibold text-gray-900">Job Opportunities</h1>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        <!-- Search and Filters -->
+        <div class="bg-white shadow sm:rounded-lg mb-6">
+            <div class="px-4 py-5 sm:p-6">
+                <form id="jobSearchForm" class="space-y-4">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <!-- Search Input -->
+                        <div>
+                            <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
+                            <div class="mt-1">
+                                <input type="text" name="search" id="search" class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Job title, company, or keywords">
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div>
+                            <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                            <div class="mt-1">
+                                <input type="text" name="location" id="location" class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="City, state, or remote">
+                            </div>
+                        </div>
+
+                        <!-- Job Type -->
+                        <div>
+                            <label for="jobType" class="block text-sm font-medium text-gray-700">Job Type</label>
+                            <div class="mt-1">
+                                <select id="jobType" name="jobType" class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    <option value="">All Types</option>
+                                    <option value="full-time">Full Time</option>
+                                    <option value="part-time">Part Time</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="internship">Internship</option>
+                                    <option value="remote">Remote</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Experience Level -->
+                        <div>
+                            <label for="experience" class="block text-sm font-medium text-gray-700">Experience Level</label>
+                            <div class="mt-1">
+                                <select id="experience" name="experience" class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    <option value="">All Levels</option>
+                                    <option value="entry">Entry Level</option>
+                                    <option value="mid">Mid Level</option>
+                                    <option value="senior">Senior Level</option>
+                                    <option value="executive">Executive Level</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Search Jobs
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Job Listings -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-md">
+            <ul role="list" class="divide-y divide-gray-200" id="jobListings">
+                <!-- Sample Job Listing -->
+                <li>
+                    <a href="#" class="block hover:bg-gray-50">
+                        <div class="px-4 py-4 sm:px-6">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <img class="h-12 w-12 rounded-full" src="https://via.placeholder.com/48" alt="Company logo">
+                                    </div>
+                                    <div class="ml-4">
+                                        <h2 class="text-lg font-medium text-blue-600 truncate">Senior Software Engineer</h2>
+                                        <div class="mt-1 flex items-center text-sm text-gray-500">
+                                            <p>Tech Company Inc.</p>
+                                            <span class="mx-2">•</span>
+                                            <p>San Francisco, CA</p>
+                                            <span class="mx-2">•</span>
+                                            <p>Full Time</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ml-2 flex-shrink-0 flex">
+                                    <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        $120k - $150k
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-2 sm:flex sm:justify-between">
+                                <div class="sm:flex">
+                                    <p class="flex items-center text-sm text-gray-500">
+                                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                        5+ years experience
+                                    </p>
+                                </div>
+                                <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                    <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <p>
+                                        Posted 2 days ago
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <!-- More job listings will be dynamically added here -->
+            </ul>
+        </div>
+
+        <!-- Pagination -->
+        <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+            <div class="flex-1 flex justify-between sm:hidden">
+                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    Previous
+                </a>
+                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    Next
+                </a>
+            </div>
+            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm text-gray-700">
+                        Showing
+                        <span class="font-medium">1</span>
+                        to
+                        <span class="font-medium">10</span>
+                        of
+                        <span class="font-medium">97</span>
+                        results
+                    </p>
+                </div>
+                <div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">Previous</span>
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            1
+                        </a>
+                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            2
+                        </a>
+                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            3
+                        </a>
+                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">Next</span>
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const jobSearchForm = document.getElementById('jobSearchForm');
+    const jobListings = document.getElementById('jobListings');
+
+    // Handle form submission
+    jobSearchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(jobSearchForm);
+        const searchParams = new URLSearchParams();
+
+        for (let [key, value] of formData.entries()) {
+            if (value) {
+                searchParams.append(key, value);
+            }
+        }
+
+        // Show loading state
+        jobListings.innerHTML = '<li class="px-4 py-4 text-center text-gray-500">Loading...</li>';
+
+        // Fetch jobs from server
+        fetch(`/api/jobs?${searchParams.toString()}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displayJobs(data.jobs);
+                } else {
+                    jobListings.innerHTML = '<li class="px-4 py-4 text-center text-red-500">Error loading jobs. Please try again.</li>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                jobListings.innerHTML = '<li class="px-4 py-4 text-center text-red-500">Error loading jobs. Please try again.</li>';
+            });
+    });
+
+    // Function to display jobs
+    function displayJobs(jobs) {
+        if (jobs.length === 0) {
+            jobListings.innerHTML = '<li class="px-4 py-4 text-center text-gray-500">No jobs found matching your criteria.</li>';
+            return;
+        }
+
+        jobListings.innerHTML = jobs.map(job => `
+            <li>
+                <a href="/jobs/${job.id}" class="block hover:bg-gray-50">
+                    <div class="px-4 py-4 sm:px-6">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="h-12 w-12 rounded-full" src="${job.company_logo}" alt="${job.company_name} logo">
+                                </div>
+                                <div class="ml-4">
+                                    <h2 class="text-lg font-medium text-blue-600 truncate">${job.title}</h2>
+                                    <div class="mt-1 flex items-center text-sm text-gray-500">
+                                        <p>${job.company_name}</p>
+                                        <span class="mx-2">•</span>
+                                        <p>${job.location}</p>
+                                        <span class="mx-2">•</span>
+                                        <p>${job.type}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ml-2 flex-shrink-0 flex">
+                                <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    ${job.salary_range}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-2 sm:flex sm:justify-between">
+                            <div class="sm:flex">
+                                <p class="flex items-center text-sm text-gray-500">
+                                    <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                    ${job.experience_required}
+                                </p>
+                            </div>
+                            <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                <p>
+                                    Posted ${job.posted_time}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        `).join('');
+    }
+
+    // Load initial jobs
+    jobSearchForm.dispatchEvent(new Event('submit'));
+});
+</script>
+{% endblock %} 

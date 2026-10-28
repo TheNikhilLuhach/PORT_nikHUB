@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice-Controlled Automation Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+        
+        .tech-stack {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tech-badge {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .voice-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .voice-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+        }
+        
+        .voice-panel h3 {
+            color: #f59e0b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .voice-visualizer {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .voice-wave {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #f59e0b;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 10px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .voice-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .voice-button {
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .voice-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .voice-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .voice-button.active {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            animation: recording 2s infinite;
+        }
+        
+        @keyframes recording {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        
+        .command-list {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+        }
+        
+        .command-list h3 {
+            color: #f59e0b;
+            margin-bottom: 20px;
+        }
+        
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .command-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            transition: transform 0.3s ease;
+        }
+        
+        .command-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.2);
+        }
+        
+        .command-phrase {
+            color: #f59e0b;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .command-action {
+            color: #a0a0a0;
+            font-size: 0.85rem;
+        }
+        
+        .transcript-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .transcript-line {
+            margin: 5px 0;
+            padding: 8px;
+            border-left: 3px solid #f59e0b;
+            padding-left: 12px;
+            font-size: 0.9rem;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-ready { background: #10b981; }
+        .status-listening { background: #f59e0b; animation: pulse 1s infinite; }
+        .status-processing { background: #3b82f6; }
+        .status-error { background: #ef4444; }
+        
+        .github-link {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .github-link a {
+            color: #f59e0b;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        
+        .github-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Voice-Controlled Automation Menu</h1>
+            <p>A sophisticated voice-controlled automation system that manages file operations, launches applications, and provides hands-free computer control.</p>
+            <div class="tech-stack">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">Speech Recognition</span>
+                <span class="tech-badge">NLP</span>
+                <span class="tech-badge">Automation</span>
+                <span class="tech-badge">Streamlit</span>
+            </div>
+        </div>
+
+        <div class="voice-interface">
+            <div class="voice-panel">
+                <h3>🎤 Voice Control Interface</h3>
+                <div class="voice-visualizer" id="voiceVisualizer">
+                    <div style="text-align: center;">
+                        <div class="status-indicator status-ready" id="statusIndicator"></div>
+                        <span id="statusText">Ready to listen</span>
+                    </div>
+                </div>
+                
+                <div class="voice-controls">
+                    <button class="voice-button" id="startButton" onclick="startListening()">Start Listening</button>
+                    <button class="voice-button" id="stopButton" onclick="stopListening()" disabled>Stop Listening</button>
+                </div>
+                
+                <div class="transcript-panel" id="transcriptPanel">
+                    <div class="transcript-line">System: Voice control initialized and ready</div>
+                    <div class="transcript-line">System: Microphone access granted</div>
+                    <div class="transcript-line">System: Waiting for voice commands...</div>
+                </div>
+            </div>
+            
+            <div class="command-list">
+                <h3>📋 Available Voice Commands</h3>
+                <div class="commands-grid">
+                    <div class="command-card">
+                        <div class="command-phrase">"Open Notepad"</div>
+                        <div class="command-action">Launches Notepad application</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-phrase">"Open Calculator"</div>
+                        <div class="command-action">Opens Calculator app</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-phrase">"Open Browser"</div>
+                        <div class="command-action">Launches default web browser</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-phrase">"Show Files"</div>
+                        <div class="command-action">Opens File Explorer</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-phrase">"Play Music"</div>
+                        <div class="command-action">Starts music player</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-phrase">"Volume Up"</div>
+                        <div class="command-action">Increases system volume</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-phrase">"Volume Down"</div>
+                        <div class="command-action">Decreases system volume</div>
+                    </div>
+                    <div class="command-card">
+                        <div class="command-phrase">"Shutdown"</div>
+                        <div class="command-action">Initiates system shutdown</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="github-link">
+            <a href="https://github.com/TheNikhilLuhach" target="_blank">
+                🔗 View Full Project on GitHub
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let isListening = false;
+        let recognitionTimeout;
+        
+        const voiceCommands = [
+            "Open Notepad",
+            "Open Calculator", 
+            "Open Browser",
+            "Show Files",
+            "Play Music",
+            "Volume Up",
+            "Volume Down",
+            "Shutdown"
+        ];
+        
+        const commandActions = {
+            "Open Notepad": "🚀 Launching Notepad...",
+            "Open Calculator": "🧮 Opening Calculator...",
+            "Open Browser": "🌐 Starting Web Browser...",
+            "Show Files": "📁 Opening File Explorer...",
+            "Play Music": "🎵 Starting Music Player...",
+            "Volume Up": "🔊 Increasing Volume...",
+            "Volume Down": "🔉 Decreasing Volume...",
+            "Shutdown": "⚠️ Initiating System Shutdown..."
+        };
+
+        function startListening() {
+            isListening = true;
+            document.getElementById('startButton').disabled = true;
+            document.getElementById('stopButton').disabled = false;
+            
+            const startButton = document.getElementById('startButton');
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            const visualizer = document.getElementById('voiceVisualizer');
+            
+            startButton.classList.add('active');
+            statusIndicator.className = 'status-indicator status-listening';
+            statusText.textContent = 'Listening...';
+            
+            // Add voice wave animation
+            visualizer.innerHTML = `
+                <div style="text-align: center;">
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave" style="animation-delay: 0.2s;"></div>
+                    <div class="voice-wave" style="animation-delay: 0.4s;"></div>
+                    <div style="margin-top: 20px; color: #f59e0b;">🎤 Listening for commands...</div>
+                </div>
+            `;
+            
+            addTranscript("System: Voice recognition activated", "info");
+            
+            // Simulate voice recognition
+            recognitionTimeout = setTimeout(() => {
+                if (isListening) {
+                    const randomCommand = voiceCommands[Math.floor(Math.random() * voiceCommands.length)];
+                    processCommand(randomCommand);
+                }
+            }, 3000);
+        }
+
+        function stopListening() {
+            isListening = false;
+            document.getElementById('startButton').disabled = false;
+            document.getElementById('stopButton').disabled = true;
+            
+            const startButton = document.getElementById('startButton');
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            const visualizer = document.getElementById('voiceVisualizer');
+            
+            startButton.classList.remove('active');
+            statusIndicator.className = 'status-indicator status-ready';
+            statusText.textContent = 'Ready to listen';
+            
+            visualizer.innerHTML = `
+                <div style="text-align: center;">
+                    <div class="status-indicator status-ready"></div>
+                    <span>Ready to listen</span>
+                </div>
+            `;
+            
+            if (recognitionTimeout) {
+                clearTimeout(recognitionTimeout);
+            }
+            
+            addTranscript("System: Voice recognition stopped", "warning");
+        }
+
+        function processCommand(command) {
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            
+            statusIndicator.className = 'status-indicator status-processing';
+            statusText.textContent = 'Processing...';
+            
+            addTranscript(`Recognized: "${command}"`, 'success');
+            
+            setTimeout(() => {
+                const action = commandActions[command];
+                if (action) {
+                    addTranscript(action, 'info');
+                    
+                    // Reset to listening state
+                    statusIndicator.className = 'status-indicator status-listening';
+                    statusText.textContent = 'Listening...';
+                    
+                    // Continue listening for more commands
+                    if (isListening) {
+                        recognitionTimeout = setTimeout(() => {
+                            if (isListening) {
+                                const randomCommand = voiceCommands[Math.floor(Math.random() * voiceCommands.length)];
+                                processCommand(randomCommand);
+                            }
+                        }, 4000);
+                    }
+                }
+            }, 1000);
+        }
+
+        function addTranscript(message, type = 'info') {
+            const transcriptPanel = document.getElementById('transcriptPanel');
+            const line = document.createElement('div');
+            line.className = 'transcript-line';
+            
+            const timestamp = new Date().toLocaleTimeString();
+            const icons = {
+                'info': '🔵',
+                'success': '🟢', 
+                'warning': '🟡',
+                'error': '🔴'
+            };
+            
+            line.textContent = `${icons[type]} ${timestamp} - ${message}`;
+            transcriptPanel.appendChild(line);
+            transcriptPanel.scrollTop = transcriptPanel.scrollHeight;
+        }
+
+        // Add keyboard shortcut for spacebar to toggle listening
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && e.target === document.body) {
+                e.preventDefault();
+                if (isListening) {
+                    stopListening();
+                } else {
+                    startListening();
+                }
+            }
+        });
+
+        // Add interactive hover effects to command cards
+        document.querySelectorAll('.command-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+            
+            card.addEventListener('click', function() {
+                const command = this.querySelector('.command-phrase').textContent.replace(/"/g, '');
+                addTranscript(`Manual command: "${command}"`, 'info');
+                processCommand(command);
+            });
+        });
+    </script>
+</body>
+</html>

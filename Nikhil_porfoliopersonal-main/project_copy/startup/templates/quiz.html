@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% block title %}Technical Quiz - CareerPilot{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="container mx-auto px-4">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Technical Quiz</h1>
+            <p class="text-gray-600">Test your skills and get personalized feedback</p>
+        </div>
+
+        <!-- Quiz Categories -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            {% for category in categories %}
+            <div class="bg-white rounded-lg shadow-lg p-6 hover-scale cursor-pointer" onclick="selectCategory('{{ category.id }}')">
+                <div class="text-{{ category.color }}-600 mb-4">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ category.icon }}"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">{{ category.name }}</h3>
+                <p class="text-gray-600">{{ category.description }}</p>
+                <div class="mt-4">
+                    <span class="text-sm text-gray-500">{{ category.question_count }} questions</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Quiz Interface -->
+        <div id="quizInterface" class="hidden">
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium text-gray-700">Progress</span>
+                    <span class="text-sm font-medium text-gray-700"><span id="currentQuestion">1</span>/<span id="totalQuestions">10</span></span>
+                </div>
+                <div class="bg-gray-200 rounded-full h-2">
+                    <div id="progressBar" class="bg-indigo-600 rounded-full h-2 transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <div id="questionContainer">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="flex justify-between">
+                <button onclick="previousQuestion()" class="btn-secondary" id="prevButton" disabled>
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    Previous
+                </button>
+                <button onclick="nextQuestion()" class="btn-primary" id="nextButton">
+                    Next
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="quizResults" class="hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Quiz Results</h2>
+                    <p class="text-gray-600">Your performance analysis</p>
+                </div>
+
+                <!-- Score -->
+                <div class="flex justify-center mb-8">
+                    <div class="relative">
+                        <svg class="w-32 h-32">
+                            <circle class="text-gray-200" stroke-width="8" stroke="currentColor" fill="transparent" r="56" cx="64" cy="64"/>
+                            <circle class="text-indigo-600" stroke-width="8" stroke-dasharray="351.858" stroke-dashoffset="87.964" stroke-linecap="round" stroke="currentColor" fill="transparent" r="56" cx="64" cy="64"/>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-3xl font-bold text-gray-800">75%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis -->
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Strengths</h3>
+                        <div class="space-y-2">
+                            {% for strength in strengths %}
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-gray-700">{{ strength }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Areas for Improvement</h3>
+                        <div class="space-y-2">
+                            {% for area in improvement_areas %}
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                </svg>
+                                <span class="text-gray-700">{{ area }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Recommendations</h3>
+                        <div class="space-y-4">
+                            {% for recommendation in recommendations %}
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-medium text-gray-800">{{ recommendation.title }}</h4>
+                                <p class="text-gray-600">{{ recommendation.description }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center space-x-4 mt-8">
+                    <button onclick="retakeQuiz()" class="btn-secondary">
+                        Retake Quiz
+                    </button>
+                    <button onclick="viewDetailedResults()" class="btn-primary">
+                        View Detailed Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let currentQuestionIndex = 0;
+    let questions = [];
+    let userAnswers = [];
+
+    // Select category
+    function selectCategory(categoryId) {
+        // Load questions for selected category
+        document.getElementById('quizInterface').classList.remove('hidden');
+        loadQuestions(categoryId);
+    }
+
+    // Load questions
+    function loadQuestions(categoryId) {
+        // Add question loading logic
+        questions = [
+            {
+                question: "What is the time complexity of binary search?",
+                options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
+                correctAnswer: 1
+            },
+            // Add more questions
+        ];
+        displayQuestion();
+    }
+
+    // Display question
+    function displayQuestion() {
+        const question = questions[currentQuestionIndex];
+        const container = document.getElementById('questionContainer');
+        
+        container.innerHTML = `
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">${question.question}</h3>
+            <div class="space-y-4">
+                ${question.options.map((option, index) => `
+                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50
+                        ${userAnswers[currentQuestionIndex] === index ? 'border-indigo-600 bg-indigo-50' : 'border-gray-200'}">
+                        <input type="radio" name="answer" value="${index}" 
+                            ${userAnswers[currentQuestionIndex] === index ? 'checked' : ''}
+                            onchange="selectAnswer(${index})" class="form-radio">
+                        <span class="ml-3 text-gray-700">${option}</span>
+                    </label>
+                `).join('')}
+            </div>
+        `;
+
+        updateProgress();
+    }
+
+    // Select answer
+    function selectAnswer(index) {
+        userAnswers[currentQuestionIndex] = index;
+        document.getElementById('nextButton').disabled = false;
+    }
+
+    // Previous question
+    function previousQuestion() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            displayQuestion();
+        }
+    }
+
+    // Next question
+    function nextQuestion() {
+        if (currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            displayQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    // Update progress
+    function updateProgress() {
+        const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+        document.getElementById('progressBar').style.width = `${progress}%`;
+        document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+        document.getElementById('totalQuestions').textContent = questions.length;
+        
+        document.getElementById('prevButton').disabled = currentQuestionIndex === 0;
+        document.getElementById('nextButton').disabled = !userAnswers[currentQuestionIndex];
+    }
+
+    // Show results
+    function showResults() {
+        document.getElementById('quizInterface').classList.add('hidden');
+        document.getElementById('quizResults').classList.remove('hidden');
+        calculateResults();
+    }
+
+    // Calculate results
+    function calculateResults() {
+        // Add results calculation logic
+    }
+
+    // Retake quiz
+    function retakeQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers = [];
+        document.getElementById('quizResults').classList.add('hidden');
+        document.getElementById('quizInterface').classList.remove('hidden');
+        displayQuestion();
+    }
+
+    // View detailed results
+    function viewDetailedResults() {
+        // Add detailed results logic
+    }
+</script>
+{% endblock %} 

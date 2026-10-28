@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - CareerPilot{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Welcome Section -->
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-8">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold mb-2">Welcome back, {{ current_user.name }}!</h1>
+            <p class="text-indigo-100">Track your career progress and explore opportunities</p>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="container mx-auto px-4 -mt-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Resume Stats -->
+            <div class="bg-white rounded-lg shadow-lg p-6 hover-scale">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-indigo-100 text-indigo-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <h2 class="text-gray-600 text-sm">Resumes</h2>
+                        <p class="text-2xl font-semibold text-gray-800">{{ resumes|length }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Applications -->
+            <div class="bg-white rounded-lg shadow-lg p-6 hover-scale">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-green-100 text-green-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <h2 class="text-gray-600 text-sm">Applications</h2>
+                        <p class="text-2xl font-semibold text-gray-800">{{ applications|length }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Score -->
+            <div class="bg-white rounded-lg shadow-lg p-6 hover-scale">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <h2 class="text-gray-600 text-sm">Quiz Score</h2>
+                        <p class="text-2xl font-semibold text-gray-800">{{ quiz_score }}%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Career Progress -->
+            <div class="bg-white rounded-lg shadow-lg p-6 hover-scale">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <h2 class="text-gray-600 text-sm">Career Progress</h2>
+                        <p class="text-2xl font-semibold text-gray-800">{{ career_progress }}%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Features -->
+    <div class="container mx-auto px-4 py-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Quick Access</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Resume Builder -->
+            <a href="{{ url_for('resume_builder') }}" class="card hover-scale">
+                <div class="text-indigo-600 mb-4">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Resume Builder</h3>
+                <p class="text-gray-600">Create and manage your professional resumes with AI assistance</p>
+            </a>
+
+            <!-- Career Guidance -->
+            <a href="{{ url_for('career_guidance') }}" class="card hover-scale">
+                <div class="text-purple-600 mb-4">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Career Guidance</h3>
+                <p class="text-gray-600">Get personalized career advice and path recommendations</p>
+            </a>
+
+            <!-- Job Portal -->
+            <a href="{{ url_for('job_portal') }}" class="card hover-scale">
+                <div class="text-pink-600 mb-4">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Job Portal</h3>
+                <p class="text-gray-600">Find job opportunities and freelance projects</p>
+            </a>
+
+            <!-- Technical Quiz -->
+            <a href="{{ url_for('quiz') }}" class="card hover-scale">
+                <div class="text-yellow-600 mb-4">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Technical Quiz</h3>
+                <p class="text-gray-600">Test your skills and get personalized feedback</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="container mx-auto px-4 py-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Recent Activity</h2>
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="divide-y divide-gray-200">
+                {% for activity in recent_activities %}
+                <div class="p-6 hover:bg-gray-50">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-100">
+                                <span class="text-sm font-medium leading-none text-indigo-600">{{ activity.type[0] }}</span>
+                            </span>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-900">{{ activity.description }}</p>
+                            <p class="text-sm text-gray-500">{{ activity.timestamp }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add animation to cards
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.3s ease';
+            
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100 * index);
+        });
+    });
+</script>
+{% endblock %} 

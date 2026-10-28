@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech2Idea AI Chatbot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+        
+        .tech-stack {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tech-badge {
+            background: rgba(255, 0, 110, 0.1);
+            border: 1px solid rgba(255, 0, 110, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .chat-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .chat-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+        }
+        
+        .chat-panel h3 {
+            color: #ff006e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chat-messages {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 0, 110, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .message {
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .user-message {
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .bot-message {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .message-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .chat-input button {
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .chat-input button:hover {
+            transform: scale(1.05);
+        }
+        
+        .features-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+        }
+        
+        .features-panel h3 {
+            color: #ff006e;
+            margin-bottom: 20px;
+        }
+        
+        .skill-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .skill-button {
+            background: rgba(255, 0, 110, 0.1);
+            border: 1px solid rgba(255, 0, 110, 0.3);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .skill-button:hover {
+            background: rgba(255, 0, 110, 0.2);
+            transform: scale(1.02);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 0, 110, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff006e;
+        }
+        
+        .stat-label {
+            color: #a0a0a0;
+            font-size: 0.8rem;
+        }
+        
+        .github-link {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .github-link a {
+            color: #ff006e;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        
+        .github-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tech2Idea AI Chatbot</h1>
+            <p>A conversational AI assistant that transforms your technical skills into unique project ideas using Google's Gemini AI.</p>
+            <div class="tech-stack">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">Streamlit</span>
+                <span class="tech-badge">Google Gemini AI</span>
+                <span class="tech-badge">NLP</span>
+            </div>
+        </div>
+
+        <div class="chat-interface">
+            <div class="chat-panel">
+                <h3>💬 Chat Interface</h3>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <div class="message-label">AI Assistant</div>
+                        <div>Hello! I'm your Tech2Idea assistant. Tell me about your technical skills and I'll help you generate amazing project ideas!</div>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Type your message here..." />
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+            
+            <div class="features-panel">
+                <h3>🎯 Quick Skills & Features</h3>
+                <div class="skill-buttons">
+                    <button class="skill-button" onclick="addSkill('Python')">Python</button>
+                    <button class="skill-button" onclick="addSkill('JavaScript')">JavaScript</button>
+                    <button class="skill-button" onclick="addSkill('React')">React</button>
+                    <button class="skill-button" onclick="addSkill('Machine Learning')">Machine Learning</button>
+                    <button class="skill-button" onclick="addSkill('Web Development')">Web Development</button>
+                    <button class="skill-button" onclick="addSkill('Data Science')">Data Science</button>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="ideasCount">0</div>
+                        <div class="stat-label">Ideas Generated</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="skillsCount">0</div>
+                        <div class="stat-label">Skills Added</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="chatCount">1</div>
+                        <div class="stat-label">Chat Messages</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">A+</div>
+                        <div class="stat-label">AI Performance</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="github-link">
+            <a href="https://github.com/TheNikhilLuhach" target="_blank">
+                🔗 View Full Project on GitHub
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let ideasCount = 0;
+        let skillsCount = 0;
+        let chatCount = 1;
+
+        const aiResponses = [
+            "Based on your skills, here are some project ideas: 1) Smart Task Manager with AI prioritization, 2) Real-time collaboration tool, 3) Automated testing framework.",
+            "Great combination! You could build: 1) ML-powered web app, 2) Interactive data visualization dashboard, 3) API integration platform.",
+            "With your skillset, consider: 1) Full-stack AI application, 2) Predictive analytics tool, 3) Automated workflow system.",
+            "I suggest these projects: 1) Intelligent chatbot system, 2) Data processing pipeline, 3) Cloud-based solution architecture.",
+            "Project recommendations: 1) Real-time analytics dashboard, 2) Machine learning API, 3) Progressive web application with AI features."
+        ];
+
+        function addMessage(message, isUser = false) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            
+            const label = document.createElement('div');
+            label.className = 'message-label';
+            label.textContent = isUser ? 'You' : 'AI Assistant';
+            
+            const content = document.createElement('div');
+            content.textContent = message;
+            
+            messageDiv.appendChild(label);
+            messageDiv.appendChild(content);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            if (isUser) {
+                chatCount++;
+                document.getElementById('chatCount').textContent = chatCount;
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const response = aiResponses[Math.floor(Math.random() * aiResponses.length)];
+                    addMessage(response, false);
+                    ideasCount += 3;
+                    document.getElementById('ideasCount').textContent = ideasCount;
+                }, 1000);
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, true);
+                input.value = '';
+            }
+        }
+
+        function addSkill(skill) {
+            skillsCount++;
+            document.getElementById('skillsCount').textContent = skillsCount;
+            
+            const message = `I know ${skill}`;
+            addMessage(message, true);
+            
+            setTimeout(() => {
+                const response = `Excellent! ${skill} is a valuable skill. Here are some project ideas that leverage ${skill} effectively...`;
+                addMessage(response, false);
+                ideasCount += 2;
+                document.getElementById('ideasCount').textContent = ideasCount;
+            }, 1000);
+        }
+
+        // Handle Enter key in input
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Add some initial animation
+        setTimeout(() => {
+            addMessage("Try clicking the skill buttons or type about your technical background!", false);
+        }, 2000);
+    </script>
+</body>
+</html>

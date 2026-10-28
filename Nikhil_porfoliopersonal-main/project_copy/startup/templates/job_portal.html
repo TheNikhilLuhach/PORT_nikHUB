@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Job Portal - CareerPilot{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="container mx-auto px-4">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Job Portal</h1>
+            <p class="text-gray-600">Find your next career opportunity</p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <form id="searchForm" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Job Title</label>
+                        <input type="text" name="title" class="form-input" placeholder="e.g., Software Engineer">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Location</label>
+                        <input type="text" name="location" class="form-input" placeholder="e.g., New York">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Job Type</label>
+                        <select name="type" class="form-select">
+                            <option value="">All Types</option>
+                            <option value="full-time">Full Time</option>
+                            <option value="part-time">Part Time</option>
+                            <option value="contract">Contract</option>
+                            <option value="internship">Internship</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Experience Level</label>
+                        <select name="experience" class="form-select">
+                            <option value="">All Levels</option>
+                            <option value="entry">Entry Level</option>
+                            <option value="mid">Mid Level</option>
+                            <option value="senior">Senior Level</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="btn-primary">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        Search Jobs
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Job Listings -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Job Cards -->
+            <div class="lg:col-span-2 space-y-6">
+                {% for job in jobs %}
+                <div class="bg-white rounded-lg shadow-lg p-6 hover-scale">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-800">{{ job.title }}</h2>
+                            <p class="text-gray-600">{{ job.company }}</p>
+                        </div>
+                        <span class="px-3 py-1 text-sm font-medium rounded-full 
+                            {% if job.type == 'full-time' %}bg-green-100 text-green-800
+                            {% elif job.type == 'part-time' %}bg-blue-100 text-blue-800
+                            {% elif job.type == 'contract' %}bg-yellow-100 text-yellow-800
+                            {% else %}bg-purple-100 text-purple-800{% endif %}">
+                            {{ job.type|title }}
+                        </span>
+                    </div>
+                    <div class="mt-4 flex items-center text-gray-600">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        {{ job.location }}
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-gray-600">{{ job.description|truncate(200) }}</p>
+                    </div>
+                    <div class="mt-4 flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm text-gray-500">Posted {{ job.posted_date }}</span>
+                            <span class="text-sm text-gray-500">{{ job.applications }} applications</span>
+                        </div>
+                        <button onclick="viewJob({{ job.id }})" class="btn-primary">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Saved Jobs -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Saved Jobs</h2>
+                    <div class="space-y-4">
+                        {% for job in saved_jobs %}
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h3 class="font-medium text-gray-800">{{ job.title }}</h3>
+                                <p class="text-sm text-gray-600">{{ job.company }}</p>
+                            </div>
+                            <button onclick="removeSavedJob({{ job.id }})" class="text-red-600 hover:text-red-800">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Job Alerts -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Job Alerts</h2>
+                    <form id="alertForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Job Title</label>
+                            <input type="text" name="alert_title" class="form-input" placeholder="e.g., Software Engineer">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Location</label>
+                            <input type="text" name="alert_location" class="form-input" placeholder="e.g., New York">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Frequency</label>
+                            <select name="alert_frequency" class="form-select">
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary w-full">
+                            Create Alert
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Job Details Modal -->
+<div id="jobModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="text-xl font-semibold">Job Details</h2>
+            <button onclick="closeJobModal()" class="text-gray-500 hover:text-gray-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div id="jobDetails">
+                <!-- Job details will be loaded here -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button onclick="closeJobModal()" class="btn-secondary">Close</button>
+            <button onclick="applyForJob()" class="btn-primary">Apply Now</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Search functionality
+    const searchForm = document.getElementById('searchForm');
+    searchForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        // Add search logic
+    });
+
+    // View job details
+    function viewJob(jobId) {
+        document.getElementById('jobModal').classList.remove('hidden');
+        // Load job details
+    }
+
+    // Close job modal
+    function closeJobModal() {
+        document.getElementById('jobModal').classList.add('hidden');
+    }
+
+    // Apply for job
+    function applyForJob() {
+        // Add application logic
+    }
+
+    // Remove saved job
+    function removeSavedJob(jobId) {
+        // Add remove saved job logic
+    }
+
+    // Job alerts
+    const alertForm = document.getElementById('alertForm');
+    alertForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        // Add alert creation logic
+    });
+</script>
+{% endblock %} 

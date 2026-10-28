@@ -1,0 +1,85 @@
+[
+  {
+    "id": 1,
+    "name": "Hand Gesture Control System",
+    "folder": "hand-gesture-control",
+    "description": "A computer vision application that enables touchless computer control through hand gestures. Uses MediaPipe for hand tracking and supports custom gesture recognition for various system commands.",
+    "tech": ["Python", "OpenCV", "MediaPipe", "Computer Vision"],
+    "features": [
+      "Real-time hand gesture detection",
+      "Application launcher integration",
+      "Custom gesture commands",
+      "Webcam-based control system",
+      "2-second cooldown for accuracy"
+    ],
+    "liveLink": "/projects/hand-gesture-control",
+    "githubLink": "https://github.com/TheNikhilLuhach"
+  },
+  {
+    "id": 2,
+    "name": "Tech2Idea AI Chatbot",
+    "folder": "tech2idea-chatbot",
+    "description": "A conversational AI assistant that helps transform technical skills into unique project ideas using Google's Gemini AI with an interactive Streamlit interface.",
+    "tech": ["Python", "Streamlit", "Google Gemini AI", "NLP"],
+    "features": [
+      "Interactive chat interface",
+      "Personalized project suggestions",
+      "Technology recommendations",
+      "Session management",
+      "Real-time AI responses"
+    ],
+    "liveLink": "/projects/tech2idea-chatbot",
+    "githubLink": "https://github.com/TheNikhilLuhach"
+  },
+  {
+    "id": 3,
+    "name": "CareerPilot Platform",
+    "folder": "careerpilot-platform",
+    "description": "A comprehensive career development platform featuring AI resume building, job search, career guidance, and technical assessments for job seekers and professionals.",
+    "tech": ["Python", "Flask", "SQLAlchemy", "Tailwind CSS", "AI"],
+    "features": [
+      "AI-powered resume builder",
+      "Career guidance system",
+      "Job portal with tracking",
+      "Technical skill assessment",
+      "ATS optimization",
+      "Multiple export formats"
+    ],
+    "liveLink": "/projects/careerpilot-platform",
+    "githubLink": "https://github.com/TheNikhilLuhach"
+  },
+  {
+    "id": 4,
+    "name": "StudySync Learning Hub",
+    "folder": "studysync-learning",
+    "description": "An AI-powered educational platform combining real-time video collaboration, interactive whiteboards, and intelligent study assistance for enhanced group learning.",
+    "tech": ["Python", "Flask", "WebRTC", "OpenAI API", "HTML5", "CSS3"],
+    "features": [
+      "Real-time video conferencing",
+      "Collaborative whiteboard",
+      "AI study assistant",
+      "Book scanning with OCR",
+      "Question bank generator",
+      "Shared notes system"
+    ],
+    "liveLink": "/projects/studysync-learning",
+    "githubLink": "https://github.com/TheNikhilLuhach"
+  },
+  {
+    "id": 5,
+    "name": "Voice-Controlled Automation Menu",
+    "folder": "voice-automation-menu",
+    "description": "A sophisticated voice-controlled automation system that manages file operations, launches applications, and provides hands-free computer control through natural language commands.",
+    "tech": ["Python", "Speech Recognition", "NLP", "Automation", "Streamlit"],
+    "features": [
+      "Voice command recognition",
+      "File management system",
+      "Application launcher",
+      "Natural language processing",
+      "Interactive voice menu",
+      "Hands-free control"
+    ],
+    "liveLink": "/projects/voice-automation-menu",
+    "githubLink": "https://github.com/TheNikhilLuhach"
+  }
+]

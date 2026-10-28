@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerPilot Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+        
+        .tech-stack {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tech-badge {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+        }
+        
+        .feature-card h3 {
+            color: #10b981;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .feature-card p {
+            color: #a0a0a0;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .demo-button {
+            background: linear-gradient(45deg, #10b981, #3b82f6);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .demo-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .demo-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+        
+        .demo-section h2 {
+            color: #10b981;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .resume-builder {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #10b981;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .ats-score {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .score-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #10b981;
+        }
+        
+        .score-label {
+            color: #a0a0a0;
+            margin-top: 5px;
+        }
+        
+        .github-link {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .github-link a {
+            color: #10b981;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        
+        .github-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CareerPilot Platform</h1>
+            <p>A comprehensive career development platform featuring AI resume building, job search, career guidance, and technical assessments.</p>
+            <div class="tech-stack">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">Flask</span>
+                <span class="tech-badge">SQLAlchemy</span>
+                <span class="tech-badge">Tailwind CSS</span>
+                <span class="tech-badge">AI</span>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>📄 AI Resume Builder</h3>
+                <p>Create ATS-friendly resumes with AI suggestions, real-time optimization, and multiple professional templates with export capabilities.</p>
+                <button class="demo-button" onclick="openResumeBuilder()">Try Resume Builder</button>
+            </div>
+            
+            <div class="feature-card">
+                <h3>🧭 Career Guidance</h3>
+                <p>AI-powered career counseling with personalized recommendations, skill gap analysis, and industry trend insights.</p>
+                <button class="demo-button" onclick="openCareerGuidance()">Get Career Advice</button>
+            </div>
+            
+            <div class="feature-card">
+                <h3>💼 Job Portal</h3>
+                <p>Curated job listings with application tracking, freelance opportunities, and intelligent job matching algorithms.</p>
+                <button class="demo-button" onclick="openJobPortal()">Browse Jobs</button>
+            </div>
+            
+            <div class="feature-card">
+                <h3>📝 Technical Quiz</h3>
+                <p>Skill evaluation tests with performance analytics, industry-specific assessments, and personalized learning recommendations.</p>
+                <button class="demo-button" onclick="openQuiz()">Take Assessment</button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🚀 Interactive Resume Builder Demo</h2>
+            <div class="resume-builder">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="fullName" placeholder="John Doe" />
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="email" placeholder="john@example.com" />
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" id="phone" placeholder="+1 (555) 123-4567" />
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label>Professional Summary</label>
+                            <textarea id="summary" placeholder="Experienced software developer with expertise in..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Job Title</label>
+                            <input type="text" id="jobTitle" placeholder="Senior Software Engineer" />
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <button class="demo-button" onclick="analyzeResume()">Analyze with AI</button>
+                    <button class="demo-button" onclick="generateResume()">Generate Resume</button>
+                    <button class="demo-button" onclick="exportResume()">Export PDF</button>
+                </div>
+                
+                <div class="ats-score" id="atsScore" style="display: none;">
+                    <div class="score-value" id="scoreValue">92</div>
+                    <div class="score-label">ATS Compatibility Score</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="github-link">
+            <a href="https://github.com/TheNikhilLuhach" target="_blank">
+                🔗 View Full Project on GitHub
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function openResumeBuilder() {
+            alert('📄 Resume Builder: This would open the full resume creation interface with templates, AI suggestions, and real-time editing.');
+        }
+
+        function openCareerGuidance() {
+            alert('🧭 Career Guidance: This would start an AI chat session for personalized career advice and skill recommendations.');
+        }
+
+        function openJobPortal() {
+            alert('💼 Job Portal: This would display curated job listings with filters and application tracking.');
+        }
+
+        function openQuiz() {
+            alert('📝 Technical Quiz: This would start skill assessment tests with performance analytics.');
+        }
+
+        function analyzeResume() {
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const summary = document.getElementById('summary').value;
+            
+            if (!fullName || !email || !summary) {
+                alert('Please fill in the basic information first!');
+                return;
+            }
+            
+            // Show ATS score
+            const atsScore = document.getElementById('atsScore');
+            const scoreValue = document.getElementById('scoreValue');
+            
+            // Generate random score between 85-98
+            const score = Math.floor(Math.random() * 14) + 85;
+            scoreValue.textContent = score;
+            atsScore.style.display = 'block';
+            
+            // Animate the score
+            let currentScore = 0;
+            const increment = score / 50;
+            const timer = setInterval(() => {
+                currentScore += increment;
+                if (currentScore >= score) {
+                    currentScore = score;
+                    clearInterval(timer);
+                }
+                scoreValue.textContent = Math.floor(currentScore);
+            }, 20);
+        }
+
+        function generateResume() {
+            alert('🎨 AI Resume Generator: This would use AI to enhance your resume content based on industry standards and job requirements.');
+        }
+
+        function exportResume() {
+            alert('📄 Export Options: This would show export options for PDF, DOCX, and other formats with professional formatting.');
+        }
+
+        // Add interactive form validation
+        document.querySelectorAll('input, textarea').forEach(field => {
+            field.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    this.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+                } else {
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

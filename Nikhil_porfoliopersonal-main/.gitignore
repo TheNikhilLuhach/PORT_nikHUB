@@ -1,0 +1,43 @@
+# Ignore Python cache and environment files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment folders
+env/
+venv/
+ENV/
+.venv/
+**/.venv/
+
+# Ignore Node.js modules
+node_modules/
+**/node_modules/
+
+# Ignore environment and secret files
+.env
+*.env
+.env.*
+*.pem
+*.key
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log
+
+# Ignore VSCode settings
+.vscode/ 
+
+# Ignore Next.js build output
+.next/
+out/
+dist/

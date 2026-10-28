@@ -1,0 +1,348 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Builder - CareerPilot{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="container mx-auto px-4">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">Resume Builder</h1>
+                <p class="text-gray-600">Create a professional resume with AI assistance</p>
+            </div>
+            <button onclick="generateAIDraft()" class="btn-primary">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+                Generate AI Draft
+            </button>
+        </div>
+
+        <!-- Resume List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {% for resume in resumes %}
+            <div class="card hover-scale">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-semibold">{{ resume.title }}</h3>
+                    <div class="flex space-x-2">
+                        <button onclick="editResume({{ resume.id }})" class="text-indigo-600 hover:text-indigo-800">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="deleteResume({{ resume.id }})" class="text-red-600 hover:text-red-800">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">{{ resume.last_updated }}</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-500">{{ resume.format }}</span>
+                    <button onclick="downloadResume({{ resume.id }})" class="btn-secondary">
+                        Download
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- New Resume Card -->
+            <div class="card hover-scale cursor-pointer" onclick="showNewResumeModal()">
+                <div class="flex flex-col items-center justify-center h-full py-8">
+                    <div class="text-indigo-600 mb-4">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Create New Resume</h3>
+                    <p class="text-gray-600">Start from scratch or use a template</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resume Editor -->
+        <div id="resumeEditor" class="hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <form id="resumeForm" class="space-y-6">
+                    <!-- Personal Information -->
+                    <div class="space-y-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Personal Information</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" name="full_name" class="form-input" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" name="email" class="form-input" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Phone</label>
+                                <input type="tel" name="phone" class="form-input" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Location</label>
+                                <input type="text" name="location" class="form-input" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Summary -->
+                    <div class="space-y-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Professional Summary</h2>
+                        <div>
+                            <textarea name="summary" rows="4" class="form-textarea" required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Work Experience -->
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-xl font-semibold text-gray-800">Work Experience</h2>
+                            <button type="button" onclick="addExperience()" class="btn-secondary">
+                                Add Experience
+                            </button>
+                        </div>
+                        <div id="experienceList" class="space-y-4">
+                            <!-- Experience items will be added here -->
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-xl font-semibold text-gray-800">Education</h2>
+                            <button type="button" onclick="addEducation()" class="btn-secondary">
+                                Add Education
+                            </button>
+                        </div>
+                        <div id="educationList" class="space-y-4">
+                            <!-- Education items will be added here -->
+                        </div>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="space-y-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Skills</h2>
+                        <div>
+                            <input type="text" id="skillInput" class="form-input" placeholder="Add a skill and press Enter">
+                            <div id="skillsList" class="flex flex-wrap gap-2 mt-2">
+                                <!-- Skills will be added here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Save Buttons -->
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" onclick="previewResume()" class="btn-secondary">
+                            Preview
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            Save Resume
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Resume Modal -->
+<div id="newResumeModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="text-xl font-semibold">Create New Resume</h2>
+            <button onclick="closeNewResumeModal()" class="text-gray-500 hover:text-gray-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="newResumeForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Resume Title</label>
+                    <input type="text" name="title" class="form-input" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Format</label>
+                    <select name="format" class="form-select">
+                        <option value="professional">Professional</option>
+                        <option value="creative">Creative</option>
+                        <option value="modern">Modern</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button onclick="closeNewResumeModal()" class="btn-secondary">Cancel</button>
+            <button onclick="createNewResume()" class="btn-primary">Create</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Experience template
+    function getExperienceTemplate() {
+        return `
+            <div class="experience-item bg-gray-50 p-4 rounded-lg">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Company</label>
+                        <input type="text" name="company[]" class="form-input" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Position</label>
+                        <input type="text" name="position[]" class="form-input" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Start Date</label>
+                        <input type="date" name="start_date[]" class="form-input" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">End Date</label>
+                        <input type="date" name="end_date[]" class="form-input">
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea name="description[]" rows="3" class="form-textarea" required></textarea>
+                </div>
+                <button type="button" onclick="removeExperience(this)" class="text-red-600 hover:text-red-800 mt-2">
+                    Remove
+                </button>
+            </div>
+        `;
+    }
+
+    // Education template
+    function getEducationTemplate() {
+        return `
+            <div class="education-item bg-gray-50 p-4 rounded-lg">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Institution</label>
+                        <input type="text" name="institution[]" class="form-input" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Degree</label>
+                        <input type="text" name="degree[]" class="form-input" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Start Date</label>
+                        <input type="date" name="edu_start_date[]" class="form-input" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">End Date</label>
+                        <input type="date" name="edu_end_date[]" class="form-input">
+                    </div>
+                </div>
+                <button type="button" onclick="removeEducation(this)" class="text-red-600 hover:text-red-800 mt-2">
+                    Remove
+                </button>
+            </div>
+        `;
+    }
+
+    // Add experience
+    function addExperience() {
+        const experienceList = document.getElementById('experienceList');
+        experienceList.insertAdjacentHTML('beforeend', getExperienceTemplate());
+    }
+
+    // Add education
+    function addEducation() {
+        const educationList = document.getElementById('educationList');
+        educationList.insertAdjacentHTML('beforeend', getEducationTemplate());
+    }
+
+    // Remove experience
+    function removeExperience(button) {
+        button.closest('.experience-item').remove();
+    }
+
+    // Remove education
+    function removeEducation(button) {
+        button.closest('.education-item').remove();
+    }
+
+    // Add skill
+    document.getElementById('skillInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const skill = this.value.trim();
+            if (skill) {
+                const skillsList = document.getElementById('skillsList');
+                const skillElement = document.createElement('span');
+                skillElement.className = 'bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm';
+                skillElement.innerHTML = `
+                    ${skill}
+                    <button type="button" onclick="this.parentElement.remove()" class="ml-2 text-indigo-600 hover:text-indigo-800">
+                        ×
+                    </button>
+                `;
+                skillsList.appendChild(skillElement);
+                this.value = '';
+            }
+        }
+    });
+
+    // Show new resume modal
+    function showNewResumeModal() {
+        document.getElementById('newResumeModal').classList.remove('hidden');
+    }
+
+    // Close new resume modal
+    function closeNewResumeModal() {
+        document.getElementById('newResumeModal').classList.add('hidden');
+    }
+
+    // Create new resume
+    function createNewResume() {
+        const form = document.getElementById('newResumeForm');
+        const formData = new FormData(form);
+        // Add AJAX call to create new resume
+        closeNewResumeModal();
+        document.getElementById('resumeEditor').classList.remove('hidden');
+    }
+
+    // Generate AI draft
+    function generateAIDraft() {
+        // Add AI draft generation logic
+    }
+
+    // Edit resume
+    function editResume(id) {
+        // Add edit resume logic
+        document.getElementById('resumeEditor').classList.remove('hidden');
+    }
+
+    // Delete resume
+    function deleteResume(id) {
+        if (confirm('Are you sure you want to delete this resume?')) {
+            // Add delete resume logic
+        }
+    }
+
+    // Download resume
+    function downloadResume(id) {
+        // Add download resume logic
+    }
+
+    // Preview resume
+    function previewResume() {
+        // Add preview resume logic
+    }
+
+    // Form submission
+    document.getElementById('resumeForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        // Add form submission logic
+    });
+</script>
+{% endblock %} 

@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Analyzer - Career Platform{% endblock %}
+
+{% block content %}
+<div class="py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-2xl font-semibold text-gray-900">Resume Analyzer</h1>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+        <div class="bg-white shadow sm:rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Upload Your Resume</h3>
+                <div class="mt-2 max-w-xl text-sm text-gray-500">
+                    <p>Upload your resume in PDF or DOCX format to get AI-powered feedback and suggestions for improvement.</p>
+                </div>
+                <form id="uploadForm" class="mt-5">
+                    <div class="max-w-xl">
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="resume-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                        <span>Upload a file</span>
+                                        <input id="resume-upload" name="resume-upload" type="file" class="sr-only" accept=".pdf,.doc,.docx">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PDF, DOC, or DOCX up to 10MB</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Analyze Resume
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Analysis Results -->
+        <div id="analysisResults" class="mt-8 hidden">
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Analysis Results</h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">AI-powered feedback and suggestions for your resume.</p>
+                </div>
+                <div class="border-t border-gray-200">
+                    <dl>
+                        <!-- Overall Score -->
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">Overall Score</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <div class="flex items-center">
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 75%"></div>
+                                    </div>
+                                    <span class="ml-2">75/100</span>
+                                </div>
+                            </dd>
+                        </div>
+
+                        <!-- Content Analysis -->
+                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">Content Analysis</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                                        <div class="w-0 flex-1 flex items-center">
+                                            <svg class="flex-shrink-0 h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                            <span class="ml-2 flex-1 w-0 truncate">Strong professional summary</span>
+                                        </div>
+                                    </li>
+                                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                                        <div class="w-0 flex-1 flex items-center">
+                                            <svg class="flex-shrink-0 h-5 w-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                            </svg>
+                                            <span class="ml-2 flex-1 w-0 truncate">Consider adding more quantifiable achievements</span>
+                                        </div>
+                                    </li>
+                                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                                        <div class="w-0 flex-1 flex items-center">
+                                            <svg class="flex-shrink-0 h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg>
+                                            <span class="ml-2 flex-1 w-0 truncate">Missing key skills section</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </div>
+
+                        <!-- Suggestions -->
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">Suggestions</dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <ul class="list-disc pl-5 space-y-2">
+                                    <li>Add a dedicated skills section highlighting your technical and soft skills</li>
+                                    <li>Include specific metrics and achievements in your work experience</li>
+                                    <li>Consider adding relevant certifications or training</li>
+                                    <li>Optimize your resume for ATS by using industry-standard keywords</li>
+                                </ul>
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadForm = document.getElementById('uploadForm');
+    const analysisResults = document.getElementById('analysisResults');
+
+    // Handle file upload
+    uploadForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const fileInput = document.getElementById('resume-upload');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert('Please select a file to upload');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('resume', file);
+
+        // Show loading state
+        const submitButton = uploadForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Analyzing...';
+
+        // Send to server
+        fetch('/api/analyze-resume', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                analysisResults.classList.remove('hidden');
+                // Update analysis results with data from server
+                // This is where you would populate the results section with actual data
+            } else {
+                alert('Error analyzing resume: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error analyzing resume. Please try again.');
+        })
+        .finally(() => {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Analyze Resume';
+        });
+    });
+
+    // Handle drag and drop
+    const dropZone = document.querySelector('.border-dashed');
+    
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+        dropZone.classList.add('border-blue-500');
+    }
+
+    function unhighlight(e) {
+        dropZone.classList.remove('border-blue-500');
+    }
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        const fileInput = document.getElementById('resume-upload');
+        fileInput.files = files;
+    }
+});
+</script>
+{% endblock %} 
